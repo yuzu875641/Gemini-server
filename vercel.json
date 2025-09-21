@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/generate",
-      "destination": "/api"
+      "source": "/api/generate/:prompt",
+      "destination": "/api?prompt=:prompt"
     }
   ]
 }
