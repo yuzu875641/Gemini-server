@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 module.exports = async (req, res) => {
   // CORSヘッダーを設定して、どこからのリクエストも受け付けられるようにします
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET'); // GETメソッドを許可します
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   // OPTIONSリクエストを処理します
@@ -16,16 +16,17 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { prompt } = req.body;
+    // クエリパラメータからプロンプトを取得します
+    const { prompt } = req.query;
 
     if (!prompt) {
-      return res.status(400).json({ error: 'プロンプトが必要です' });
+      return res.status(400).json({ error: 'プロンプトがありません' });
     }
 
     // モデルを 'gemini-1.5-flash' に設定
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-    
-    const result = await model.generateContent(prompt);
+
+    const result = await model.generateContent(decodeURIComponent(prompt)); // URLエンコードされたプロンプトをデコードします
     const response = await result.response;
     const text = response.text();
 
