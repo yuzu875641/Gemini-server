@@ -1,0 +1,12 @@
+{
+  "name": "gemini-vercel-server",
+  "version": "1.0.0",
+  "description": "A serverless function on Vercel using Gemini API",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.14.1"
+  }
+}
